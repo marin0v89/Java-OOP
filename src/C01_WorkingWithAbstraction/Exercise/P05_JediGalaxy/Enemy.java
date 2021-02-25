@@ -1,7 +1,7 @@
 package C01_WorkingWithAbstraction.Exercise.P05_JediGalaxy;
 
 public class Enemy {
-    private Galaxy galaxy;
+    private final Galaxy galaxy;
 
     public Enemy(Galaxy galaxy) {
         this.galaxy = galaxy;
