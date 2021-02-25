@@ -1,3 +1,4 @@
+
 package C01_WorkingWithAbstraction.Exercise.P03_CardsWithPower;
 
 public enum RankPower {
@@ -25,3 +26,4 @@ public enum RankPower {
         return this.power;
     }
 }
+
