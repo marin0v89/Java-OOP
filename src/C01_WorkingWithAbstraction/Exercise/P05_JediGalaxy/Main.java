@@ -13,7 +13,7 @@ public class Main {
 
         Enemy enemy = new Enemy(galaxy);
         Player player = new Player(galaxy);
-        Engine engine = new Engine(reader, enemy, player);
+        Engyne engine = new Engyne(reader, enemy, player);
         engine.run();
 
         System.out.println(player.getPoints());
