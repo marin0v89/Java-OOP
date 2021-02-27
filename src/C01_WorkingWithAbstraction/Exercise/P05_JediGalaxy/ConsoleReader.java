@@ -3,6 +3,7 @@ package C01_WorkingWithAbstraction.Exercise.P05_JediGalaxy;
 import java.util.Scanner;
 
 public class ConsoleReader {
+
     private Scanner scanner;
 
     public ConsoleReader() {
@@ -12,5 +13,4 @@ public class ConsoleReader {
     public String readLine() {
         return this.scanner.nextLine();
     }
-
 }
