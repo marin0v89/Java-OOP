@@ -42,24 +42,23 @@ public class Person {
     }
 
     public String getFirstName() {
-        return firstName;
+        return this.firstName;
     }
 
     public String getLastName() {
-        return lastName;
+        return this.lastName;
     }
 
     public int getAge() {
-        return age;
+        return this.age;
     }
 
     public double getSalary() {
-        return salary;
+        return this.salary;
     }
 
     public void increaseSalary(double percent) {
-
-        defineAge(this.getAge(), percent);
+        defineAge(this.age, percent);
     }
 
     private void defineAge(int age, double percent) {
