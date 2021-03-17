@@ -11,7 +11,7 @@ public class P01_Reflection {
 
         System.out.println(clazz);
         System.out.println(superclass);
-        for (Class anInterface : interfaces) {
+        for (Class<?> anInterface : interfaces) {
             System.out.println(anInterface);
         }
 
