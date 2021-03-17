@@ -32,7 +32,7 @@ public abstract class BaseAppender implements Appender {
 
     @Override
     public String toString() {
-        return String.format("Appender type: %s, Layout type: %s, Report level: %s, Messages appended: %d",
+        return String.format("Appender type: %s, C06_SOLID.api.Layout type: %s, Report level: %s, Messages appended: %d",
                 this.getClass().getSimpleName(),
                 this.layout.getClass().getSimpleName(),
                 this.reportLevel.name(),
