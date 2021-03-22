@@ -17,7 +17,7 @@ public class P02_EnterNumbers {
     private static void printNumbers(Scanner scan) {
         int start = Integer.parseInt(scan.nextLine());
         int end = Integer.parseInt(scan.nextLine());
-        //1 < start < end < 100
+
         if (start < 1 || end > 100) {
             throw new NumberFormatException("Invalid number");
         }
