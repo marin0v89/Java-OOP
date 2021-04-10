@@ -1,6 +1,6 @@
 package Exam.aquarium.entities.fish;
 
-import aquarium.common.ExceptionMessages;
+import Exam.aquarium.common.ExceptionMessages;
 
 public abstract class BaseFish implements Fish {
     private String name;
