@@ -16,15 +16,17 @@ var targetSnap = parameters.get("targetSnap");
 var subjectId = parameters.get("subjectId");
 
 result = instrumentHelper2(sourceQuoteType, sourceQuoteType, applicabilityDate, snap, subjectId);
+var resultPrcList = [];
 var it = result.iterator();
 while (it.hasNext()) {
-var price = it.next();
-var value = price.getAttribute("value");
-var mostRecentCorrectedElementApplicabilityDate = price.getAttribute("correctedApplicabilityDate");
-resultPrc = createPriceElement(price, targetQuoteType, value, mostRecentCorrectedElementApplicabilityDate);
-resultPrc.setReference("snap", targetSnap);
-result.add(resultPrc);
+    var price = it.next();
+    var value = price.getAttribute("value");
+    var mostRecentCorrectedElementApplicabilityDate = price.getAttribute("correctedApplicabilityDate");
+    resultPrc = createPriceElement(price, targetQuoteType, value, mostRecentCorrectedElementApplicabilityDate);
+    resultPrc.setReference("snap", targetSnap);
+    resultPrcList.push(resultPrc);
 }
+result.addAll(resultPrcList);
 ]]></script>
   <description>I1 + I2 - I3</description>
   <dependency>CalculationFunctions</dependency>
