@@ -80,6 +80,43 @@ while (it1.hasNext()) {
 		}
 	}
 }
+
+function instrumentHelper2(quoteType, targetQuoteType, applicabilityDate, snap, subjectId) {
+	// Let's start by filling in the references we already know      
+	//log.info("InstrumentHelper script running now...");
+
+	 var elementType = priceElementTypeFinder(quoteType);
+
+	 //log.info("Price elementType is :"+elementType);
+
+	// We create a query to get the bid and ask offsets
+	var query = arbitrator.getNewQuery();
+	query.type().is(elementType);
+	var myElement = elementFactory.createElement();
+	query.reference("subjectId").is(subjectId, myElement.getType().getReferenceType("subjectId"));
+	try { 
+		query.reference("applicabilityDate", applicabilityDate);
+	} catch (e) {
+		try {
+			query.reference("applicabilityDate").is(applicabilityDate, myElement.getType().getReferenceType("applicabilityDate"));
+		} catch (ex) {
+			log.info("ApplicabilityDate could not be set");
+		}
+	}
+	query.reference("snap").is(snap, myElement.getType().getReferenceType("snap"));
+	//log.info("Subject ID = " + query.reference("subjectId"));
+	//log.info("ApplicabilityDate = " + query.reference("applicabilityDate"));
+	//log.info("Snap = " + query.reference("snap"));
+	var queryResult = arbitrator.getElements(query);
+	//log.info("We got " + queryResult.size() + " results...");
+	
+	if(queryResult.size() < 1) {
+        // We filled in all references in the query, so we should have exactly 2 results
+        Script.fail("Arbitrator did not return 1 price");
+	}
+	
+	return queryResult;
+}
 ]]></script>
   <description>I1 + I2 - I3</description>
   <dependency>CalculationFunctions</dependency>
