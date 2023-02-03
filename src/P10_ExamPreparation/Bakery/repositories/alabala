@@ -4,7 +4,7 @@
   <name>InverseSpreadWIthInterpolation</name>
   <script><![CDATA[
 
-var CodeProperty = Java.type("be.kbc.fde.core.element.property.CodeProperty");
+var CodeProperty = Java.type("element.property.CodeProperty");
 var BigDecimal = Java.type("java.math.BigDecimal");
 var RoundingMode = Java.type("java.math.RoundingMode");
 
