@@ -4,29 +4,82 @@
   <name>InverseSpreadWIthInterpolation</name>
   <script><![CDATA[
 
-var CodeProperty = Java.type("element.property.CodeProperty");
+var CodeProperty = Java.type("be.kbc.fde.core.element.property.CodeProperty");
 var BigDecimal = Java.type("java.math.BigDecimal");
 var RoundingMode = Java.type("java.math.RoundingMode");
+
+//How do we solve this?
+//- Fetch all needed prices
+//- Group all prices for one applicability date / snap together
+//- Do the calculations
+//- Add this to the result-array
+
 var applicabilityDate = query.reference("applicabilityDate");
-
-var snap = parameters.get("snap");
-var sourceQuoteType = parameters.get("sourceQuoteType");
+//log.info("Applicability Date: " + applicabilityDate);
+var snap0 = parameters.get("snap0");
+var snap1 = parameters.get("snap1");
+//log.info("Snap 1: " + snap1);
+var snap2 = parameters.get("snap2");
+//log.info("Snap 2: " + snap2);
+var snap3 = parameters.get("snap3");
+//log.info("Snap 3: " + snap3);
+var subjectId1 = parameters.get("subjectId1");
+//log.info("SubjectId 1: " + subjectId1);
+var subjectId2 = parameters.get("subjectId2");
+//log.info("SubjectId 2: " + subjectId2);
+var subjectId3 = parameters.get("subjectId3");
+//log.info("SubjectId 3: " + subjectId3);
+var sourceQuoteType1 = parameters.get("sourceQuoteType1");
+//log.info("sourceQuoteType 1: " + sourceQuoteType1);
+var sourceQuoteType2 = parameters.get("sourceQuoteType2");
+//log.info("sourceQuoteType 2: " + sourceQuoteType2);
+var sourceQuoteType3 = parameters.get("sourceQuoteType3");
+//log.info("sourceQuoteType 3: " + sourceQuoteType3);
 var targetQuoteType = parameters.get("targetQuoteType");
-var targetSnap = parameters.get("targetSnap");
-var subjectId = parameters.get("subjectId");
+//log.info("targetQuoteType: " + targetQuoteType);
 
-result = instrumentHelper2(sourceQuoteType, sourceQuoteType, applicabilityDate, snap, subjectId);
-var resultPrcList = [];
-var it = result.iterator();
-while (it.hasNext()) {
-    var price = it.next();
-    var value = price.getAttribute("value");
-    var mostRecentCorrectedElementApplicabilityDate = price.getAttribute("correctedApplicabilityDate");
-    resultPrc = createPriceElement(price, targetQuoteType, value, mostRecentCorrectedElementApplicabilityDate);
-    resultPrc.setReference("snap", targetSnap);
-    resultPrcList.push(resultPrc);
+result1 = instrumentHelper2(sourceQuoteType1, sourceQuoteType1, applicabilityDate, snap1, subjectId1);
+result2 = instrumentHelper2(sourceQuoteType2, sourceQuoteType2, applicabilityDate, snap2, subjectId2);
+result3 = instrumentHelper2(sourceQuoteType3, sourceQuoteType3, applicabilityDate, snap3, subjectId3);
+
+var it1 = result1.iterator();
+
+while (it1.hasNext()) {
+	var price1 = it1.next();
+	//log.info("Now handling price " + price1);
+	var it2 = result2.iterator();
+	while (it2.hasNext()) {
+		var price2 = it2.next();
+		//log.info("Comparing with price " + price2);
+		if (price2.getReference("applicabilityDate").equals(price1.getReference("applicabilityDate"))) {
+			var it3 = result3.iterator();
+			while (it3.hasNext()) {
+				var price3 = it3.next();
+				//log.info("Comparing with bidprice " + price3);
+				if (price2.getReference("applicabilityDate").equals(price3.getReference("applicabilityDate"))) {
+					//log.info("We have a match regarding applicability date!");
+					var value = add(price1.getAttribute("value"), price2.getAttribute("value"));
+					value = subtract(value, price3.getAttribute("value"));
+
+					var mostRecentCorrectedElementApplicabilityDate = price1.getAttribute("correctedApplicabilityDate");
+					if ( price2.getAttribute("correctedApplicabilityDate") > mostRecentCorrectedElementApplicabilityDate ){
+						mostRecentCorrectedElementApplicabilityDate = price2.getAttribute("correctedApplicabilityDate");
+						if ( price3.getAttribute("correctedApplicabilityDate") > mostRecentCorrectedElementApplicabilityDate ){
+						mostRecentCorrectedElementApplicabilityDate = price3.getAttribute("correctedApplicabilityDate");
+						}
+					}
+
+					resultPrc = createPriceElement(price3, targetQuoteType, value, mostRecentCorrectedElementApplicabilityDate);
+					resultPrc.setReference("snap",snap0);
+					result.add(resultPrc);
+				//	log.info("Price added");
+					it3.remove();
+					break;
+				}
+			}
+		}
+	}
 }
-result.addAll(resultPrcList);
 ]]></script>
   <description>I1 + I2 - I3</description>
   <dependency>CalculationFunctions</dependency>
