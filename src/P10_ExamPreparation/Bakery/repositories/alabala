@@ -1,1 +1,15 @@
 
+DELETE FROM fde0_ff.EL_n_LOGICAL_KEY a
+WHERE a.LOGICAL_KEY_PK IN (
+    SELECT a.LOGICAL_KEY_PK
+    FROM fde0_ff.EL_n_LOGICAL_KEY a,
+         fde0_ff.el_n_code b
+    WHERE a.LOGICAL_KEY_PK = b.LOGICAL_KEY
+        AND a.element_type IN ('FI_PAYEVT_VALID', 'FI_PAYEVT_TYPE', 'FI_PAYEVTDIV_TYPE')
+        AND b.applicability_DATE BETWEEN '20/11/2017' AND '20/12/2017'
+        AND feed_id IN (
+            SELECT DISTINCT feed_identifier_code
+            FROM fde0_ff.col_provider_feed_status
+            WHERE data_provider_code = 'IDC'
+        )
+);
